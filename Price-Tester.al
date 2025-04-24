@@ -77,7 +77,11 @@ page 50105 "Price Tester"
                     trigger OnDrillDown()
                     begin
                         // Perform calculations here
-                        totalPrice := price + (price * tax / 100) - discount;
+                        if discount > 0 then
+                            discountedPrice := price - (price * discount / 100)
+                        else
+                            discountedPrice := price;
+                        totalPrice := discountedPrice + (price * tax / 100) + shippingPrice;
                         profitMargin := (totalPrice - (productionCost + laborCost + materialCost + overheadCost)) / totalPrice * 100;
                         profitMarginValue := totalPrice - (productionCost + laborCost + materialCost + overheadCost);
                     end;
@@ -127,6 +131,7 @@ page 50105 "Price Tester"
         shippingCost: Decimal;
         shippingPrice: Decimal;
         discount: Decimal;
+        discountedPrice: Decimal; 
         productionCost: Decimal;
         laborCost: Decimal;
         materialCost: Decimal;
